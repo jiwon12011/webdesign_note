@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>웹디자인기능사 실기 치트시트 | 시험장 오픈북 노트</title>
+<meta name="description" content="웹디자인기능사 실기 시험장에서 바로 볼 수 있는 핵심 정리 노트. HTML, CSS, jQuery 코드 총정리.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --bg2: #13161e;
+    --bg3: #1a1e28;
+    --surface: #1e2330;
+    --surface2: #252b3a;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8eaf0;
+    --text2: #9299a8;
+    --text3: #5c6375;
+    --red: #ff5c5c;
+    --red-bg: rgba(255,92,92,0.12);
+    --red-border: rgba(255,92,92,0.35);
+    --amber: #ffb347;
+    --amber-bg: rgba(255,179,71,0.1);
+    --amber-border: rgba(255,179,71,0.3);
+    --green: #4ecb8a;
+    --green-bg: rgba(78,203,138,0.1);
+    --green-border: rgba(78,203,138,0.3);
+    --blue: #5b9fff;
+    --blue-bg: rgba(91,159,255,0.1);
+    --blue-border: rgba(91,159,255,0.3);
+    --code-bg: #0a0c10;
+    --mono: 'Nanum Gothic Coding', monospace;
+    --sans: 'Pretendard', -apple-system, sans-serif;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* 헤더 */
+  header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 1.25rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%;
+    transform: translateX(-50%);
+    width: 400px; height: 200px;
+    background: radial-gradient(ellipse, rgba(91,159,255,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 99px;
+    background: var(--blue-bg);
+    color: var(--blue);
+    border: 1px solid var(--blue-border);
+    margin-bottom: 0.75rem;
+  }
+  h1 {
+    font-size: clamp(1.4rem, 5vw, 2rem);
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+    line-height: 1.3;
+  }
+  header p {
+    font-size: 13px;
+    color: var(--text2);
+  }
+  .alert-banner {
+    margin: 1rem auto 0;
+    max-width: 480px;
+    background: var(--red-bg);
+    border: 1px solid var(--red-border);
+    border-radius: var(--radius);
+    padding: 0.6rem 1rem;
+    font-size: 13px;
+    color: var(--red);
+    font-weight: 500;
+  }
+
+  /* 탭 */
+  .tab-nav {
+    display: flex;
+    gap: 6px;
+    padding: 1rem 1rem 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .tab-nav::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex-shrink: 0;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 14px 8px;
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    border: 1px solid transparent;
+    border-bottom: none;
+    background: transparent;
+    color: var(--text3);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+  .tab-btn:hover { color: var(--text2); background: var(--surface); }
+  .tab-btn.active {
+    background: var(--bg);
+    color: var(--text);
+    border-color: var(--border);
+    border-bottom-color: var(--bg);
+    position: relative;
+    bottom: -1px;
+  }
+
+  /* 콘텐츠 */
+  main {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 1.25rem 1rem 3rem;
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* 카드 */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.1rem;
+    margin-bottom: 0.85rem;
+  }
+  .card.danger  { border-color: var(--red-border);   background: rgba(255,92,92,0.05); }
+  .card.warning { border-color: var(--amber-border); background: rgba(255,179,71,0.04); }
+  .card.success { border-color: var(--green-border); background: rgba(78,203,138,0.04); }
+  .card.info    { border-color: var(--blue-border);  background: rgba(91,159,255,0.04); }
+
+  .chip {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    padding: 2px 9px;
+    border-radius: 99px;
+    margin-bottom: 8px;
+  }
+  .chip-red    { background: var(--red-bg);   color: var(--red);   border: 1px solid var(--red-border); }
+  .chip-amber  { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
+  .chip-green  { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+  .chip-blue   { background: var(--blue-bg);  color: var(--blue);  border: 1px solid var(--blue-border); }
+  .chip-gray   { background: var(--bg3);      color: var(--text2); border: 1px solid var(--border2); }
+
+  .step-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text2);
+    margin: 10px 0 4px;
+    letter-spacing: 0.04em;
+  }
+
+  /* 코드 블록 */
+  pre {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.75;
+    color: #c9d1e0;
+    white-space: pre-wrap;
+    word-break: break-all;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    margin-top: 4px;
+    tab-size: 2;
+  }
+
+  .kw  { color: #c792ea; }
+  .str { color: #c3e88d; }
+  .fn  { color: #82aaff; }
+  .tag { color: #f07178; }
+  .attr{ color: #ffcb6b; }
+  .val { color: #c3e88d; }
+  .cm  { color: #546e7a; font-style: italic; }
+  .hi-r{ color: #ff5c5c; font-weight: 700; }
+  .hi-a{ color: #ffb347; font-weight: 700; }
+  .hi-g{ color: #4ecb8a; font-weight: 700; }
+  .hi-b{ color: #5b9fff; font-weight: 700; }
+
+  /* 팁 박스 */
+  .tip {
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 8px;
+    padding: 6px 10px;
+    background: var(--bg3);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--border2);
+    line-height: 1.6;
+  }
+  .tip.red   { border-left-color: var(--red);   color: #ffaaaa; }
+  .tip.amber { border-left-color: var(--amber); color: #ffd49a; }
+  .tip.green { border-left-color: var(--green); color: #a0f0c8; }
+  .tip.blue  { border-left-color: var(--blue);  color: #aaccff; }
+
+  /* 섹션 제목 */
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin: 1.25rem 0 0.6rem;
+  }
+
+  /* 체크리스트 */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13.5px;
+    color: var(--text);
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li.done { opacity: 0.35; text-decoration: line-through; color: var(--text3); }
+  .check-box {
+    flex-shrink: 0;
+    width: 18px; height: 18px;
+    border: 1.5px solid var(--border2);
+    border-radius: 4px;
+    margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    transition: all 0.15s;
+  }
+  .done .check-box {
+    background: var(--green);
+    border-color: var(--green);
+    color: #0a0c10;
+  }
+  .check-cat {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 99px;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  /* 그리드 */
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+  }
+  @media (max-width: 520px) {
+    .grid2 { grid-template-columns: 1fr; }
+  }
+
+  /* 2단 탭 내 코드 */
+  .grid2 pre { font-size: 11.5px; }
+
+  /* 푸터 */
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 12px;
+    color: var(--text3);
+    border-top: 1px solid var(--border);
+    background: var(--bg2);
+  }
+  footer strong { color: var(--text2); }
+
+  /* 스크롤바 */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
+
+  /* 애니메이션 */
+  .tab-panel.active {
+    animation: fadeIn 0.2s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">웹디자인기능사 실기</div>
+  <h1>시험장 오픈북 치트시트</h1>
+  <p>HTML · CSS · jQuery 핵심 코드 총정리</p>
+  <div class="alert-banner">⚡ 시험 시작하자마자 빨간 항목부터!</div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="start">🔴 시작</button>
+  <button class="tab-btn" data-tab="css">CSS</button>
+  <button class="tab-btn" data-tab="js">JS 코드</button>
+  <button class="tab-btn" data-tab="type">유형별</button>
+  <button class="tab-btn" data-tab="check">✅ 체크</button>
+</nav>
+
+<main>
+
+  <!-- 시작 탭 -->
+  <div class="tab-panel active" id="tab-start">
+    <div class="card danger">
+      <span class="chip chip-red">🔴 시작하자마자 무조건 먼저!</span>
+
+      <div class="step-label">① &lt;html&gt; lang 변경</div>
+      <pre><span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="val">"<span class="hi-r">ko</span>"</span><span class="tag">&gt;</span></pre>
+
+      <div class="step-label">② &lt;title&gt; 아래 CSS 링크 삽입</div>
+      <pre><span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"css/style.css"</span><span class="tag">&gt;</span></pre>
+
+      <div class="step-label">③ CSS 링크 바로 아래 jQuery + JS</div>
+      <pre><span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="val">"<span class="hi-a">제이쿼리1.12.3 경로</span>"</span><span class="tag">&gt;&lt;/script&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="val">"js/script.js"</span><span class="tag">&gt;&lt;/script&gt;</span></pre>
+
+      <div class="tip red">⚠️ 순서 중요: CSS link → jQuery → script.js<br>위치: &lt;head&gt; 안, &lt;/head&gt; 닫히기 전!</div>
+    </div>
+  </div>
+
+  <!-- CSS 탭 -->
+  <div class="tab-panel" id="tab-css">
+    <div class="card warning">
+      <span class="chip chip-amber">style.css 맨 위 — 항상 붙여넣기</span>
+      <pre><span class="hi-a">@charset "UTF-8";</span>
+
+<span class="kw">*</span> {
+  margin: <span class="val">0</span>;
+  padding: <span class="val">0</span>;
+  box-sizing: <span class="val">border-box</span>;
+}
+<span class="kw">li</span>     { list-style: <span class="val">none</span>; }
+<span class="kw">a</span>      { text-decoration: <span class="val">none</span>; color: <span class="val">inherit</span>; }
+<span class="kw">img</span>    { vertical-align: <span class="val">top</span>; max-width: <span class="val">100%</span>; }
+<span class="kw">button</span> { cursor: <span class="val">pointer</span>; }</pre>
+      <div class="tip amber">⚠️ @charset 빠뜨리면 한글 깨짐! 반드시 첫 줄에!</div>
+    </div>
+  </div>
+
+  <!-- JS 탭 -->
+  <div class="tab-panel" id="tab-js">
+
+    <div class="card danger">
+      <span class="chip chip-red">🔴 기본 래퍼 — 반드시 이 안에 작성!</span>
+      <pre><span class="fn">$</span>(<span class="kw">function</span>(){
+
+  <span class="cm">// 모든 JS 코드는 여기 안에!</span>
+
+});</pre>
+      <div class="tip red">이 바깥에 코드 쓰면 동작 안 함!</div>
+    </div>
+
+    <div class="section-label">기능별 코드 조각</div>
+
+    <div class="grid2">
+      <div class="card info">
+        <span class="chip chip-blue">탭메뉴 hover</span>
+        <pre><span class="fn">$</span>(<span class="str">"nav > ul > li"</span>)
+  .<span class="fn">mouseover</span>(<span class="kw">function</span>(){
+    <span class="fn">$</span>(<span class="str">".sub"</span>)
+      .<span class="hi-b">stop().slideDown()</span>;
+  })
+  .<span class="fn">mouseout</span>(<span class="kw">function</span>(){
+    <span class="fn">$</span>(<span class="str">".sub"</span>)
+      .<span class="hi-b">stop().slideUp()</span>;
+  });</pre>
+      </div>
+
+      <div class="card info">
+        <span class="chip chip-blue">팝업 열기 / 닫기</span>
+        <pre><span class="fn">$</span>(<span class="str">".pop"</span>).<span class="fn">click</span>(<span class="kw">function</span>(){
+  <span class="fn">$</span>(<span class="str">".popup"</span>)
+    .<span class="hi-b">addClass("on")</span>;
+});
+
+<span class="fn">$</span>(<span class="str">".close button"</span>)
+  .<span class="fn">click</span>(<span class="kw">function</span>(){
+  <span class="fn">$</span>(<span class="str">".popup"</span>)
+    .<span class="hi-b">removeClass("on")</span>;
+});</pre>
+      </div>
+    </div>
+
+    <div class="card success">
+      <span class="chip chip-green">슬라이드 — 페이드인아웃</span>
+      <pre><span class="hi-g">$('.slide a:gt(0)').hide();</span>  <span class="cm">// 첫 이미지 외 숨김</span>
+
+<span class="fn">setInterval</span>(<span class="kw">function</span>(){
+  <span class="fn">$</span>(<span class="str">".slide a:first-child"</span>)
+    .<span class="fn">fadeOut()</span>
+    .<span class="fn">next</span>(<span class="str">'a'</span>).<span class="fn">fadeIn()</span>
+    .<span class="fn">end()</span>
+    .<span class="fn">appendTo</span>(<span class="str">'.slide'</span>);
+}, <span class="hi-g">3000</span>);  <span class="cm">// 3초 간격</span></pre>
+      <div class="tip green">첫 이미지 빼고 나머지 hide() 후 시작!</div>
+    </div>
+
+    <div class="card success">
+      <span class="chip chip-green">슬라이드 — 좌우 이동</span>
+      <pre><span class="kw">let</span> <span class="hi-g">count</span> = <span class="val">0</span>;
+
+<span class="fn">setInterval</span>(<span class="kw">function</span>(){
+  count++;
+  <span class="kw">if</span>(count > <span class="val">2</span>){ count = <span class="val">0</span>; }
+
+  <span class="fn">$</span>(<span class="str">".slide"</span>).<span class="fn">css</span>(<span class="str">"transform"</span>,
+    `<span class="fn">translateX</span>(${ <span class="hi-g">-33.333 * count</span> }%)`
+  );
+}, <span class="hi-g">2500</span>);  <span class="cm">// 2.5초 간격</span></pre>
+      <div class="tip green">이미지 3장 기준 -33.333% / n장이면 -(100÷n)%</div>
+    </div>
+
+    <div class="card">
+      <span class="chip chip-gray">하나씩 내려오는 탭메뉴</span>
+      <pre><span class="fn">$</span>(<span class="str">".main_menu"</span>)
+  .<span class="fn">mouseover</span>(<span class="kw">function</span>(){
+    <span class="fn">$</span>(<span class="kw">this</span>).<span class="fn">children</span>(<span class="str">".sub_menu"</span>)
+      .<span class="hi-b">addClass("show")</span>;
+  })
+  .<span class="fn">mouseout</span>(<span class="kw">function</span>(){
+    <span class="fn">$</span>(<span class="kw">this</span>).<span class="fn">children</span>(<span class="str">".sub_menu"</span>)
+      .<span class="hi-b">removeClass("show")</span>;
+  });</pre>
+      <div class="tip blue">각 메뉴마다 독립 동작 → $(this) 사용!</div>
+    </div>
+
+  </div>
+
+  <!-- 유형별 탭 -->
+  <div class="tab-panel" id="tab-type">
+
+    <div class="card warning">
+      <span class="chip chip-amber">A · B 유형 — 헤더 메뉴 z-index</span>
+      <pre><span class="cm">/* 슬라이드 이미지에 가려지지 않게! */</span>
+<span class="kw">nav</span>, <span class="kw">header nav ul</span> {
+  position: <span class="val">relative</span>;
+  <span class="hi-a">z-index: 999;</span>
+}</pre>
+      <div class="tip amber">메뉴가 슬라이드에 가려지는 버그 → z-index로 해결!</div>
+    </div>
+
+    <div class="card warning">
+      <span class="chip chip-amber">C · D 유형 — 좌우 flex 분할</span>
+      <pre><span class="cm">/* 전체화면 좌우 분할 */</span>
+<span class="kw">.wrap</span> { <span class="hi-a">display: flex;</span> }
+<span class="kw">.left</span>  { width: <span class="val">200px</span>; }  <span class="cm">/* 메뉴 */</span>
+<span class="kw">.right</span> { flex: <span class="val">1</span>; }        <span class="cm">/* 콘텐츠 */</span>
+
+<span class="cm">/* 서브메뉴 펼치는 방향에 따라 */</span>
+<span class="cm">/* 오른쪽으로: */</span> position: <span class="val">absolute</span>;
+<span class="cm">/* 아래쪽으로: */</span> position: <span class="val">relative</span>;</pre>
+      <div class="tip amber">전체화면을 정확히 반반 나누는 게 핵심!</div>
+    </div>
+
+    <div class="card success">
+      <span class="chip chip-green">F 유형 — 전체 배경 vs 중앙 콘텐츠</span>
+      <pre><span class="cm">/* 브라우저 전체 배경 */</span>
+<span class="kw">.full-bg</span> { <span class="hi-g">width: 100%;</span> }
+
+<span class="cm">/* 중앙 정렬 콘텐츠 영역 */</span>
+<span class="kw">.inner</span> {
+  width: <span class="val">1200px</span>;  <span class="cm">/* 지정 너비 */</span>
+  <span class="hi-g">margin: 0 auto;</span>
+}</pre>
+      <div class="tip green">full-bg(100%) ↔ inner(margin:0 auto) 반드시 구분!</div>
+    </div>
+
+  </div>
+
+  <!-- 체크리스트 탭 -->
+  <div class="tab-panel" id="tab-check">
+    <div class="card danger">
+      <span class="chip chip-red">제출 전 최종 체크리스트</span>
+      <p style="font-size:12px; color:var(--text2); margin: 6px 0 10px;">항목 누르면 체크!</p>
+      <ul class="checklist" id="checklist">
+        <li data-cat="HTML" data-cat-color="chip-blue">
+          <span class="check-box"></span>
+          <span>&lt;html lang="ko"&gt; 확인</span>
+          <span class="check-cat chip chip-blue">HTML</span>
+        </li>
+        <li data-cat="HTML" data-cat-color="chip-blue">
+          <span class="check-box"></span>
+          <span>CSS link 태그 — head 안, title 아래</span>
+          <span class="check-cat chip chip-blue">HTML</span>
+        </li>
+        <li data-cat="HTML" data-cat-color="chip-blue">
+          <span class="check-box"></span>
+          <span>jQuery → script.js 순서 확인</span>
+          <span class="check-cat chip chip-blue">HTML</span>
+        </li>
+        <li data-cat="CSS" data-cat-color="chip-amber">
+          <span class="check-box"></span>
+          <span>@charset "UTF-8"; 첫 줄 확인</span>
+          <span class="check-cat chip chip-amber">CSS</span>
+        </li>
+        <li data-cat="CSS" data-cat-color="chip-amber">
+          <span class="check-box"></span>
+          <span>CSS 초기화 코드 붙여넣었는지</span>
+          <span class="check-cat chip chip-amber">CSS</span>
+        </li>
+        <li data-cat="JS" data-cat-color="chip-green">
+          <span class="check-box"></span>
+          <span>모든 JS → $(function(){}) 안에 작성</span>
+          <span class="check-cat chip chip-green">JS</span>
+        </li>
+        <li data-cat="JS" data-cat-color="chip-green">
+          <span class="check-box"></span>
+          <span>슬라이드 정상 작동 확인</span>
+          <span class="check-cat chip chip-green">JS</span>
+        </li>
+        <li data-cat="JS" data-cat-color="chip-green">
+          <span class="check-box"></span>
+          <span>팝업 열기 / 닫기 확인</span>
+          <span class="check-cat chip chip-green">JS</span>
+        </li>
+        <li data-cat="유형" data-cat-color="chip-red">
+          <span class="check-box"></span>
+          <span>메뉴 z-index 확인 (A·B 유형)</span>
+          <span class="check-cat chip chip-red">유형</span>
+        </li>
+        <li data-cat="유형" data-cat-color="chip-red">
+          <span class="check-box"></span>
+          <span>display:flex 좌우 분할 확인 (C·D 유형)</span>
+          <span class="check-cat chip chip-red">유형</span>
+        </li>
+      </ul>
+      <div id="check-progress" style="margin-top:12px; font-size:12px; color:var(--text2); text-align:center;"></div>
+      <button onclick="resetChecklist()" style="margin-top:10px; width:100%; padding:8px; background:var(--bg3); border:1px solid var(--border2); border-radius:var(--radius-sm); color:var(--text2); font-family:var(--sans); font-size:12px; cursor:pointer;">초기화</button>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <strong>웹디자인기능사 실기 치트시트</strong><br>
+  시험장에서 자유롭게 활용하세요 🎯
+</footer>
+
+<script>
+  // 탭 전환
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.tab;
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabPanels.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + target).classList.add('active');
+    });
+  });
+
+  // 체크리스트
+  const items = document.querySelectorAll('.checklist li');
+  const progress = document.getElementById('check-progress');
+
+  function updateProgress() {
+    const done = document.querySelectorAll('.checklist li.done').length;
+    const total = items.length;
+    if (done === total) {
+      progress.innerHTML = '🎉 모두 완료! 제출해도 됩니다!';
+      progress.style.color = 'var(--green)';
+    } else {
+      progress.textContent = done + ' / ' + total + ' 완료';
+      progress.style.color = 'var(--text2)';
+    }
+  }
+
+  items.forEach(li => {
+    li.addEventListener('click', () => {
+      li.classList.toggle('done');
+      const box = li.querySelector('.check-box');
+      box.textContent = li.classList.contains('done') ? '✓' : '';
+      updateProgress();
+    });
+  });
+
+  function resetChecklist() {
+    items.forEach(li => {
+      li.classList.remove('done');
+      li.querySelector('.check-box').textContent = '';
+    });
+    updateProgress();
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>
